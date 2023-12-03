@@ -16,7 +16,7 @@ app.use(cors());
 
 const Users = require("./models/userModel");
 
-app.get("api/upload/:key", (req, res) => {
+app.get("/api/upload/:key", (req, res) => {
   const key = req.params.key;
   const readStream = getFileStream(key);
 
@@ -29,7 +29,7 @@ app.get("api/upload/:key", (req, res) => {
   // });
 });
 
-app.post("api/upload", upload.single("file"), async (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
     console.log(file.path);
@@ -51,7 +51,7 @@ app.post("api/upload", upload.single("file"), async (req, res) => {
   }
 });
 
-app.get("api/get-users", async (req, res) => {
+app.get("/api/get-users", async (req, res) => {
   try {
     const users = await Users.find({});
     res.status(200).json(users);

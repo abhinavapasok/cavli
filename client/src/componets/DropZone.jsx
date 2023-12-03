@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { baseUrl } from "../baseUrl";
 
 function DropZone() {
   async function postImage(file) {
@@ -8,7 +9,7 @@ function DropZone() {
     // console.log(file.path)
     formData.append("file", file);
     const result = await axios.post(
-      "http://localhost:8080/upload/",
+      `${baseUrl}/upload`,
       formData,
       { filename: file.path },
       { headers: { "Content-Type": "multipart/form-data" } }
