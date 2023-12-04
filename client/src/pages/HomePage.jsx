@@ -4,7 +4,7 @@ import DropZone from '../componets/DropZone'
 
 function HomePage() {
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex flex-col justify-center items-center p-[3rem]'>
       <DropZone />
     </div>
   )

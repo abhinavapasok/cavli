@@ -1,6 +1,12 @@
+const crypto = require('crypto');
+const util = require("util");
+// import { promisify } from "util"
+const randomBytes = util.promisify(crypto.randomBytes)
 require("dotenv").config();
 const fs = require("fs");
 const S3 = require("aws-sdk/clients/s3");
+
+
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 const region = process.env.AWS_BUCKET_REGION;
@@ -55,4 +61,37 @@ function getFileStream(fileKey) {
   return s3.getObject(downloadParams).createReadStream()
 }
 
+
 exports.getFileStream = getFileStream;
+
+
+
+async function generateUploadURL() {
+  const rawBytes = await randomBytes(16)
+  const imageName = rawBytes.toString('hex')
+
+  const params = ({
+    Bucket: bucketName,
+    Key: imageName,
+    Expires: 60,
+    ContentType: 'application/json', // Set the content type to JSON
+
+  })
+  
+  const uploadURL = await s3.getSignedUrlPromise('putObject', params)
+  return {uploadURL,imageName}
+}
+
+exports.generateUploadURL = generateUploadURL
+
+
+// async function uploadUrl(filename,contentype){
+//   const command = new s3.putObject({
+//     Bucket : bucketName,
+//     Key:filename,   
+//   })
+//   const url = await generateUploadURL()
+//   return url;
+// }exports.uploadUrl = uploadUrl
+
+

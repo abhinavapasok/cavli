@@ -8,11 +8,11 @@ var cors = require("cors");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
-const { uploadFile, getFileStream } = require("./s3");
+const { uploadFile, getFileStream ,generateUploadURL,uploadUrl} = require("./s3");
 const { error } = require("console");
 
 const app = express();
-app.use(cors());
+app.use(cors())
 
 const Users = require("./models/userModel");
 
@@ -60,6 +60,25 @@ app.get("/api/get-users", async (req, res) => {
     console.log(error);
   }
 });
+app.get('/api/s3Url/:filename', async (req, res) => {
+  const {filename} = req.params
+
+  const {uploadURL,imageName} = await generateUploadURL()
+  console.log("hi") 
+  res.send({uploadURL})
+  const newUser = await Users.create({
+    filename: filename,
+    key: imageName,
+    url: uploadURL,
+  });
+})
+// app.get('/api/s3Url', async (req, res) => {
+//   {filename,}
+//   const url = await upload()
+//   console.log("hi") 
+//   res.send({url})
+// })
+
 
 
 mongoose

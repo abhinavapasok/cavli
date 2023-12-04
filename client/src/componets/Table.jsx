@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../baseUrl";
 import axios from "axios";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 function Table() {
@@ -9,7 +8,6 @@ function Table() {
 
   const getData = async () => {
     try {
-      // const body = { mess_rate };
       axios.get(`${baseUrl}/get-users`).then(function (response) {
         console.log(response.data);
         setData(response.data);

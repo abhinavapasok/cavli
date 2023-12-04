@@ -1,32 +1,39 @@
 import axios from "axios";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { baseUrl } from "../baseUrl";
 
 function DropZone() {
-  async function postImage(file) {
-    const formData = new FormData();
-    // console.log(file.path)
-    formData.append("file", file);
-    const result = await axios.post(
-      `${baseUrl}/upload`,
-      formData,
-      { filename: file.path },
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-    return result.data;
-  }
+  const [url, setUrl] = useState("");
+  const postImage = async (file) => {
+    const res = await axios.get(`${baseUrl}/s3Url/${file.name}`,{
+    }).then((res) => {
+      setUrl(res.data.url);
+      return res;
+    });
+    console.log(file);
+
+    // await axios.put(res.data.url, {
+    //   body: file,
+    // });
+    // {
+    await fetch(res.data.uploadURL,{
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body:file
+    });
+
+    console.log("JSON file uploaded successfully!");
+  };
 
   const onDrop = useCallback((acceptedFiles) => {
     postImage(acceptedFiles[0]);
+    console.log("gg");
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "text/*": [".json"],
-    },
-  });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <div
       {...getRootProps({
