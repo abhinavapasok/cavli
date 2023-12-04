@@ -20,7 +20,6 @@ app.get("/api/upload/:key", (req, res) => {
   const key = req.params.key;
   const readStream = getFileStream(key);
 
-  // res.send(readStream)
   readStream.pipe(res)
   
   // readStream.on("data", function (chunk) {

@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Navbar from "./componets/Navbar";
 import ViewDetails from "./pages/ViewDetails";
 import GraphPage from "./pages/GraphPage";
+
+
 function App() {
 
   return (

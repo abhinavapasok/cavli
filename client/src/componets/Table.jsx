@@ -37,9 +37,9 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => {
+          {data.map((item) => {
             return (
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr key = {item.filekey}className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td className="px-6 py-4">{item.filename}</td>
                 <td className="px-6 py-4">{item.url}</td>
                 <td className="px-6 py-4">{item.createdAt.slice(0, 10)}</td>
